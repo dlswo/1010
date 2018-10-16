@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    window.onload = function () {
+        document.querySelector("#target")
+            .addEventListener("click", () => {
+                alert("AAA")
+            }, false)
+    }
+</script>
+
+<h1 id="target">Hello</h1>
+
+<script src="kquery.js"></script>
+
+<script>
+    zzz();
+
+    $("#target").innerText = "World";
+
+</script>
+</body>
+</html>

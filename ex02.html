@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<style>
+    .spinner{
+        position: absolute;
+        display: none;
+    }
+</style>
+
+<form class="form" action="http://www.naver.com">
+
+    <img class="spinner" src="spinner.gif">
+
+    <div>
+        아이디 : <input type="text" name="uid" value="AAA">
+        <span class="msg"></span>
+        <button id="checkBtn">중복체크</button>
+    </div>
+    <div>
+        비밀번호 : <input type="password" name="upw">
+    </div>
+    <div>
+        이메일 : <input type="text" name="email">
+    </div>
+    <div>
+        <button>BTN</button>
+    </div>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("form").submit(function(e) {
+            e.preventDefault();
+            console.log("button clicked.....");
+
+            var obj = {};
+            obj.uid = $("input[name='uid']").val();
+            obj.upw = $("input[name='upw']").val();
+            obj.email = $("input[name='email']").val();
+
+            $.post("http://localhost:8080/jsonEx/join", obj, function (text) {
+                alert(text);
+            })
+
+        });
+
+        $("#checkBtn").on("click", (e) =>{
+            e.preventDefault();
+            e.stopPropagation(); /*이벤트 멈춤*/
+            console.log("click......");
+
+            $(".spinner").show("slow");
+
+            var input = $("input[name='uid']");
+            var userInput = input.val();
+
+            $.ajax({ /*대부분 파라미터를 객체로 보냄*/
+                url: "http://localhost:8080/jsonEx/idCheck",
+                data: {str: userInput, pw:"1234"},
+                success: function (result) {
+                    console.log(result);
+                    if(result === 'Yes'){
+                        $(".msg").html("해당 아이디는 사용 가능합니다.");
+                        $(".spinner").hide("slow");
+                    }else{
+                        alert("사용불가..바꾸세요..")
+                        $(".spinner").hide("slow");
+                    }
+                }
+            });
+
+        })
+    });
+</script>
+</body>
+</html>
